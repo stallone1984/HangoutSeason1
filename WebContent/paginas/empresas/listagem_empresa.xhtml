@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Empresas Cadastradas</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:button value="Nova Empresa" outcome="cadastro_empresa"/>
+		<p:dataTable value="#{empresaBean.empresasCadastradas}" var="empresa" style="margin-top: 8px; width:60%"
+			paginator="true" rows="3">
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Nome"/>
+				</f:facet>
+				<h:outputText value="#{empresa.nome}"/>
+			</p:column>
+			<p:column width="200px;">
+				<f:facet name="header">
+					<h:outputText value="Cnpj"/>
+				</f:facet>
+				<h:outputText value="#{empresa.cnpj}"/>
+			</p:column>
+			<p:column width="100px;">
+				<p:commandButton value="Editar" action="#{empresaBean.editar(empresa)}"/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

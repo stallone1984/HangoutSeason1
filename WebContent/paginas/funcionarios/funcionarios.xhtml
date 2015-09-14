@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Funcionários</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:growl />
+		<p:panel header="Funcionários Cadastrados"
+			rendered="#{funcionarioBean.funcionario == null}">
+			<p:commandButton value="Novo Funcionário"
+				action="#{funcionarioBean.novoFuncionario}" update="@form"/>
+			<br/>
+			<p:dataTable value="#{funcionarioBean.funcionarios}" var="func">
+				<p:column headerText="Nome" sortBy="#{func.nome}" filterBy="#{func.nome}" filterMatchMode="contains">
+					<h:outputText value="#{func.nome}"/>
+				</p:column>
+				<p:column headerText="Email">
+					<h:outputText value="#{func.email}"/>
+				</p:column>
+				<p:column headerText="Empresa">
+					<h:outputText value="#{func.empresa.nome}"/>
+				</p:column>
+				<p:column headerText="Ativo" width="80px;">
+					<h:outputText value="#{func.ativo ? 'Sim' : 'Não'}"/>
+				</p:column>
+				<p:column width="100px;">
+					<p:commandButton value="Editar" action="#{funcionarioBean.editar(func)}" update="@form"/>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+		<p:panel header="Cadastro de Funcionários"
+			rendered="#{funcionarioBean.funcionario != null}">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome:"/>
+				<p:inputText value="#{funcionarioBean.funcionario.nome}" required="true" requiredMessage="Preencha o campo nome"/>
+				<h:outputLabel value="Data Nascimnto:"/>
+				<p:calendar value="#{funcionarioBean.funcionario.dataNascimento}"/>
+				<h:outputLabel value="Email:"/>
+				<p:inputText value="#{funcionarioBean.funcionario.email}"/>
+				<h:outputLabel value="Ativo"/>
+				<p:selectBooleanCheckbox value="#{funcionarioBean.funcionario.ativo}"/>
+				<h:outputLabel value="Empresa"/>
+				<p:selectOneMenu value="#{funcionarioBean.funcionario.empresa.id}">
+					<f:selectItem itemLabel=":: Seleccione ::" itemValue="#{null}"/>
+					<f:selectItems value="#{funcionarioBean.empresas}" var="emp"
+						itemLabel="#{emp.nome}" itemValue="#{emp.id}"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<p:commandButton value="Salvar" action="#{funcionarioBean.salvar}" update="@form"/>
+			<p:commandButton value="Cancelar" action="#{funcionarioBean.cancelar}" update="@form" immediate="true"/>
+
+		</p:panel>
+	</h:form>
+
+
+
+</h:body>
+</html>
