@@ -4,16 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import modelo.Empresa;
 import modelo.Funcionario;
 import dao.EmpresaDAO;
 import dao.FuncionarioDAO;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class FuncionarioBean implements Serializable {
 
@@ -22,10 +23,15 @@ public class FuncionarioBean implements Serializable {
 	private Funcionario funcionario;
 	private List<Funcionario> funcionarios;
 	private List<Empresa> empresas;
+	@Inject
+	private FuncionarioDAO funcionarioDAO;
 
 	public FuncionarioBean() {
-		funcionarios = FuncionarioDAO.listarTodos();
 		empresas = EmpresaDAO.listarTodas();
+	}
+	
+	public void atualizarListaFuncionarios(){
+		funcionarios = funcionarioDAO.listarTodos();
 	}
 
 	public void novoFuncionario() {
@@ -33,10 +39,10 @@ public class FuncionarioBean implements Serializable {
 	}
 
 	public void salvar() {
-		FuncionarioDAO.salvar(funcionario);
+		funcionarioDAO.salvar(funcionario);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Funcionário cadastrado com sucesso!"));
-		funcionarios = FuncionarioDAO.listarTodos();
+		atualizarListaFuncionarios();
 		funcionario = null;
 	}
 

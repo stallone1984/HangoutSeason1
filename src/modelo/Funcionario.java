@@ -1,5 +1,6 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,7 +16,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "funcionario")
-public class Funcionario {
+public class Funcionario implements Serializable{
+
+	private static final long serialVersionUID = 6950362294508373992L;
 
 	private Integer id;
 	private String nome;
